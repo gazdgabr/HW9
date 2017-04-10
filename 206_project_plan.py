@@ -14,6 +14,14 @@ import unittest
 import itertools
 import random
 
+## Define class Movie
+class Movie():
+
+	def _init_(self):
+		return
+
+	def _str_(self):
+		return
 
 # Write your test cases here.
 
@@ -29,10 +37,36 @@ class MovieTests(unittest.TestCase):
 		M = Movie(Dict(tupleList))
 		self.assertEqual(M._str_(), type("meow"))
 
-	def test_infoList_method(self)
+	def test_infoList_method(self):
 		tupleList = [("title", "YO"), ("director","SUP"), ("rating", 99), ("actors", ["ted", "bill"]), ("languages", 1)]
 		M = Movie(Dict(tupleList))
 		self.assertEqual(M.infoList, ["Y0", "SUP", 99, ["ted", "bill"], 1])
+
+	def test_infoList_returntype(self):
+		tupleList = [("title", "YO"), ("director","SUP"), ("rating", 99), ("actors", ["ted", "bill"]), ("languages", 1)]
+		M = Movie(Dict(tupleList))
+		self.assertEqual(type(M.infoList), type(["meow", "meow"]))
+
+	def test_makeMovies_length(self):
+		A = ["title", "director", "rating", "actors", "languages"]
+		B = ["B", "B", 1, [], 1]
+		C = ["C", "C", 1, [], 1]
+		D = ["D", "D", 1, [], 1]
+		dictList = [dict(zip(A,B)), dict(zip(A, C)), dict(zip(A,D))]
+		MovieList = makeMovies(dictList)
+		self.assertEqual(len(MovieList), 3)
+
+	def test_makeMovies_type(self):
+		A = ["title", "director", "rating", "actors", "languages"]
+		B = ["B", "B", 1, [], 1]
+		C = ["C", "C", 1, [], 1]
+		D = ["D", "D", 1, [], 1]
+		dictList = [dict(zip(A,B)), dict(zip(A, C)), dict(zip(A,D))]
+		MovieList = makeMovies(dictList)
+		self.assertEqual(type(MovieList[0]), type(Movie()))
+
+
+
 
 ## Remember to invoke all your tests...
 
