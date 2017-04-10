@@ -14,6 +14,38 @@ import unittest
 import itertools
 import random
 
+## Tweepy setup code borrowed from code given by Professor Cohen this semester.
+##### TWEEPY SETUP CODE:
+
+consumer_key = twitter_info.consumer_key
+consumer_secret = twitter_info.consumer_secret
+access_token = twitter_info.access_token
+access_token_secret = twitter_info.access_token_secret
+auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+auth.set_access_token(access_token, access_token_secret)
+
+
+api = tweepy.API(auth, parser=tweepy.parsers.JSONParser())
+
+##### END TWEEPY SETUP CODE
+
+## Caching pattern:
+
+cache_filename = "206_final_project_cache.json"
+
+try:
+	cache_file = open(cache_filename,'r')
+	cache_stuff = cache_file.read()
+	cache_file.close()
+	cache_dictionary = json.loads(cache_stuff)
+
+except:
+	cache_dictionary = {}
+
+
+
+
+
 ## Define class Movie
 class Movie():
 
@@ -22,6 +54,10 @@ class Movie():
 
 	def _str_(self):
 		return
+
+
+######## REST OF CODE HERE #########
+
 
 # Write your test cases here.
 
@@ -47,6 +83,8 @@ class MovieTests(unittest.TestCase):
 		M = Movie(Dict(tupleList))
 		self.assertEqual(type(M.infoList), type(["meow", "meow"]))
 
+class MovieMakingTests(unittest.TestCase):
+
 	def test_makeMovies_length(self):
 		A = ["title", "director", "rating", "actors", "languages"]
 		B = ["B", "B", 1, [], 1]
@@ -65,8 +103,24 @@ class MovieTests(unittest.TestCase):
 		MovieList = makeMovies(dictList)
 		self.assertEqual(type(MovieList[0]), type(Movie()))
 
+class DatabaseTests(unittest.TestCase):
 
+	def test_db_tweets(self):
+		conn = sqlite3.connect('final_project_tweets.db')
+		cur = conn.cursor()
+		cur.execute('SELECT * FROM Tweets');
+		dis = cur.fetchall()
+		conn.close()
+		self.assertTrue(len(dis)>=3)
 
+	def test_db_movies(self):
+		conn = sqlite3.connect('final_project_tweets.db')
+		cur = conn.cursor()
+		cur.execute('SELECT * FROM Movies');
+		dat = cur.fetchall()
+		conn.close()
+		self.assertTrue(len(dat)>=3)	
+		
 
 ## Remember to invoke all your tests...
 
